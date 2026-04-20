@@ -1,0 +1,12 @@
+{
+  "name": "stairs-of-the-hero",
+  "version": "1.0.0",
+  "description": "Fast full-stack MVP for an endless stair action game.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "sqlite3": "^6.0.1"
+  }
+}

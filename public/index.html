@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>용사의 계단 - Quest Stairs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 배경 레이어 -->
+        <div class="bg-layer"></div>
+        <div class="overlay-layer"></div>
+
+        <!-- 인트로 화면 -->
+        <section id="intro-screen" class="screen active">
+            <div class="content">
+                <h1 class="game-title">용사의<br><span class="neon-text">계단</span></h1>
+                <p class="subtitle">QUEST STAIRS</p>
+                
+                <div class="life-injector">
+                    <p class="label">심장 코어 생명력 주입</p>
+                    <div class="injector-controls">
+                        <button id="life-minus" class="ctrl-btn">-</button>
+                        <div class="life-display">
+                            <div id="life-icons" class="life-icons">
+                                <!-- JS에서 동적 생성 -->
+                            </div>
+                            <span id="life-count">3</span>
+                        </div>
+                        <button id="life-plus" class="ctrl-btn">+</button>
+                    </div>
+                </div>
+
+                <div class="instructions glass-light">
+                    <div class="step">
+                        <span class="icon"></span>
+                        <p><b>← ↓ →</b> 화살표 키로 떨어지는 노트를 타이밍에 맞춰 타격</p>
+                    </div>
+                </div>
+
+                <!-- Level Selection -->
+                <div class="level-selector glass-light">
+                    <div class="label">MISSION LEVEL (SPEED)</div>
+                    <div class="level-controls">
+                        <input type="range" id="level-range" min="1" max="10" value="1">
+                        <span id="level-val" class="neon-text">Lv.1</span>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="start-btn" class="main-btn pulse">미션 시작</button>
+                    <div class="best-score-preview">
+                        🏆 최고 레코드: <span id="top-score-val" class="neon-text">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 게임 플레이 화면 -->
+        <section id="game-screen" class="screen">
+            <div id="game-container">
+                <canvas id="game-canvas"></canvas>
+                
+                <div class="game-ui">
+                    <div class="stats-top">
+                        <div class="stat-box">
+                            <span class="label">SCORE</span>
+                            <span id="current-score" class="value">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">LIFE</span>
+                            <div id="game-life-icons" class="life-icons"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-bottom">
+                        <div class="stat-small">
+                            <span>SPEED</span>
+                            <span id="current-speed">1.0</span>x
+                        </div>
+                        <div class="stat-small">
+                            <span>DISTANCE</span>
+                            <span id="current-dist">0</span>m
+                        </div>
+                    </div>
+
+                    <!-- Mission Progress Bar -->
+                    <div class="mission-bar-container">
+                        <div class="label">MISSION PROGRESS</div>
+                        <div class="progress-track">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="hit-zone"></div>
+                    <div id="combo-container" class="hidden">
+                        <span id="combo-count" class="combo-count">0</span>
+                        <span class="combo-label">COMBO</span>
+                    </div>
+                    <div id="judge-text" class="judge-text hidden">PERFECT</div>
+                </div>
+
+                <div id="countdown" class="overlay-text hidden">3</div>
+            </div>
+        </section>
+
+        <!-- 결과 화면 -->
+        <section id="result-screen" class="screen">
+            <div class="content glass">
+                <h2 class="result-title">원정 종료</h2>
+                
+                <div class="final-stats">
+                    <div class="stat-row">
+                        <span>최종 점수</span>
+                        <span id="final-score" class="neon-text">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>이동 거리</span>
+                        <span id="final-dist">0m</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>최고 속도</span>
+                        <span id="final-speed">0x</span>
+                    </div>
+                </div>
+
+                <div class="nickname-entry-container">
+                    <p class="entry-label">기록원 등록 (화살표 조작)</p>
+                    <div id="nickname-slots" class="nickname-slots">
+                        <div class="char-slot active" data-index="0">A</div>
+                        <div class="char-slot" data-index="1">A</div>
+                        <div class="char-slot" data-index="2">A</div>
+                    </div>
+                    <button id="submit-score" class="main-btn">명예의 전당 등록</button>
+                </div>
+
+                <div class="leaderboard-section">
+                    <h3>명예의 전당</h3>
+                    <div id="leaderboard-list" class="leaderboard-list">
+                        <!-- API 연동 데이터 삽입 -->
+                        <p class="loading">데이터 로딩 중...</p>
+                    </div>
+                </div>
+
+                <button id="retry-btn" class="text-btn">새로운 원정 시작</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
